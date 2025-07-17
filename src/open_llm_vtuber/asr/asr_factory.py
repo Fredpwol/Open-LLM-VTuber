@@ -13,6 +13,7 @@ class ASRFactory:
                 download_root=kwargs.get("download_root"),
                 language=kwargs.get("language"),
                 device=kwargs.get("device"),
+                compute_type=kwargs.get("compute_type"),
             )
         elif system_name == "whisper_cpp":
             from .whisper_cpp_asr import VoiceRecognition as WhisperCPPASR

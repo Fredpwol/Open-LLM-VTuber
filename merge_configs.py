@@ -72,7 +72,7 @@ def merge_configs(user_path: str, default_path: str, lang: str = "en"):
             + default_config["system_config"]["conf_version"]
         )
 
-    with open(user_path, "w", encoding='utf-8') as f:
+    with open(user_path, "w", encoding="utf-8") as f:
         yaml.dump(merged, f)
 
     # Log upgrade details (replacing manual file writing)
