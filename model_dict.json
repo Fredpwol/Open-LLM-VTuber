@@ -1,84 +1,234 @@
 [
-    {
-        "name": "shizuku-local",
-        "description": "Orange-Haired Girl, locally available. no internet required.",
-        "url": "/live2d-models/shizuku/runtime/shizuku.model3.json",
-        "kScale": 0.5,
-        "initialXshift": 0,
-        "initialYshift": 0,
-        "kXOffset": 1150,
-        "idleMotionGroupName": "Idle",
-        "emotionMap": {
-            "neutral": 0,
-            "anger": 2,
-            "disgust": 2,
-            "fear": 1,
-            "joy": 3,
-            "smirk": 3,
-            "sadness": 1,
-            "surprise": 3
-        },
-        "tapMotions": {
-            "body": {
-                "tap_body": 30,
-                "shake": 30,
-                "pinch_in": 20,
-                "pinch_out": 20
-            },
-            "head": {
-                "flick_head": 40,
-                "shake": 20,
-                "pinch_in": 20,
-                "pinch_out": 20
-            }
-        }
+  {
+    "name": "shizuku-local",
+    "description": "Orange-Haired Girl, locally available. no internet required.",
+    "url": "/live2d-models/shizuku/shizuku.model.json",
+    "kScale": 0.5,
+    "initialXshift": 0,
+    "initialYshift": 0,
+    "kXOffset": 1150,
+    "idleMotionGroupName": "idle",
+    "emotionMap": {
+      "neutral": 0,
+      "anger": 2,
+      "disgust": 2,
+      "fear": 1,
+      "joy": 3,
+      "smirk": 3,
+      "sadness": 1,
+      "surprise": 3
     },
-    {
-        "name": "shizuku",
-        "description": "Orange-Haired Girl. Same as shizuku-local. Kept for compatibility.",
-        "url": "/live2d-models/shizuku/runtime/shizuku.model3.json",
-        "kScale": 0.5,
-        "initialXshift": 0,
-        "initialYshift": 0,
-        "kXOffset": 1150,
-        "idleMotionGroupName": "idle",
-        "emotionMap": {
-            "neutral": 0,
-            "anger": 2,
-            "disgust": 2,
-            "fear": 1,
-            "joy": 3,
-            "smirk": 3,
-            "sadness": 1,
-            "surprise": 3
-        }
-    },
-    {
-        "name": "mao_pro",
-        "description": "",
-        "url": "/live2d-models/mao_pro/runtime/mao_pro.model3.json",
-        "kScale": 0.5,
-        "initialXshift": 0,
-        "initialYshift": 0,
-        "kXOffset": 1150,
-        "idleMotionGroupName": "Idle",
-        "emotionMap": {
-            "neutral": 0,
-            "anger": 2,
-            "disgust": 2,
-            "fear": 1,
-            "joy": 3,
-            "smirk": 3,
-            "sadness": 1,
-            "surprise": 3
-        },
-        "tapMotions": {
-            "HitAreaHead": {
-                "": 1
-            },
-            "HitAreaBody": {
-                "": 1
-            }
-        }
+    "tapMotions": {
+      "body": {
+        "tap_body": 30,
+        "shake": 30,
+        "pinch_in": 20,
+        "pinch_out": 20
+      },
+      "head": {
+        "flick_head": 40,
+        "shake": 20,
+        "pinch_in": 20,
+        "pinch_out": 20
+      }
     }
+  },
+  {
+    "name": "shizuku",
+    "description": "Orange-Haired Girl. Will fetch from CDN.",
+    "url": "https://cdn.jsdelivr.net/gh/guansss/pixi-live2d-display/test/assets/shizuku/shizuku.model.json",
+    "kScale": 0.5,
+    "initialXshift": 0,
+    "initialYshift": 0,
+    "kXOffset": 1150,
+    "idleMotionGroupName": "idle",
+    "emotionMap": {
+      "neutral": 0,
+      "anger": 2,
+      "disgust": 2,
+      "fear": 1,
+      "joy": 3,
+      "smirk": 3,
+      "sadness": 1,
+      "surprise": 3
+    }
+  },
+  {
+    "name": "other_unit_90001",
+    "description": "Knight Mommy",
+    "url": "https://cdn.jsdelivr.net/gh/Eikanya/Live2d-model/VenusScramble/otherunits/other_unit_90001/live2d/model.json",
+    "kScale": 0.3,
+    "initialXshift": 0,
+    "initialYshift": 0,
+    "kXOffset": 1500,
+    "kYOffset": -150,
+    "idleMotionGroupName": "idle",
+    "emotionMap": {
+      "neutral": 0,
+      "anger": 2,
+      "disgust": 2,
+      "fear": 3,
+      "joy": 5,
+      "sadness": 3,
+      "surprise": 4
+    }
+  },
+  {
+    "name": "player_unit_00003",
+    "description": "Angel",
+    "url": "https://cdn.jsdelivr.net/gh/Eikanya/Live2d-model/VenusScramble/playerunits/player_unit_00003/live2d/model.json",
+    "kScale": 0.3,
+    "initialXshift": 0,
+    "initialYshift": 150,
+    "kXOffset": 1500,
+    "kYOffset": -50,
+    "idleMotionGroupName": "idle",
+    "emotionMap": {
+      "neutral": 0,
+      "anger": 2,
+      "disgust": 2,
+      "fear": 3,
+      "joy": 5,
+      "sadness": 3,
+      "amusement": 7,
+      "relief": 3,
+      "remorse": 3,
+      "caring": 5,
+      "confusion": 3,
+      "pride": 5,
+      "optimism": 1,
+      "excitement": 1
+    }
+  },
+  {
+    "name": "mashiro",
+    "description": "Mashiro Shiina",
+    "url": "https://cdn.jsdelivr.net/gh/artulloss/live2d/Sakurasou/mashiro/ryoufuku.model.json",
+    "kScale": 0.3,
+    "initialXshift": 0,
+    "initialYshift": 0,
+    "kXOffset": 1000,
+    "kYOffset": -200,
+    "idleMotionGroupName": "idle",
+    "emotionMap": {
+      "neutral": 0,
+      "anger": 2,
+      "disgust": 7,
+      "fear": 3,
+      "joy": 5,
+      "sadness": 3,
+      "surprise": 4,
+      "admiration": 6,
+      "amusement": 4,
+      "relief": 4,
+      "remorse": 3,
+      "caring": 5,
+      "confusion": 3,
+      "curiosity": 4,
+      "pride": 5,
+      "realization": 4,
+      "optimism": 1,
+      "excitement": 6
+    }
+  },
+  {
+    "name": "mao_pro",
+    "description": "",
+    "url": "/live2d-models/mao_pro/mao_pro.model3.json",
+    "kScale": 0.3,
+    "initialXshift": 0,
+    "initialYshift": 0,
+    "kXOffset": 1150,
+    "idleMotionGroupName": "Idle",
+    "emotionMap": {
+      "neutral": 0,
+      "anger": 2,
+      "disgust": 2,
+      "fear": 1,
+      "joy": 3,
+      "smirk": 3,
+      "sadness": 1,
+      "surprise": 3
+    },
+    "tapMotions": {
+      "HitAreaHead": {
+        "": 1
+      },
+      "HitAreaBody": {
+        "": 1
+      }
+    }
+  },
+  {
+    "name": "kuluminabi",
+    "description": "Kulumi Nabi Violin V3.1 (local)",
+    "url": "/live2d-models/kuluminabi/kuluminabi.model3.json",
+    "kScale": 0.5,
+    "initialXshift": 0,
+    "initialYshift": 0,
+    "kXOffset": 1150,
+    "idleMotionGroupName": "Idle",
+    "emotionMap": {
+      "neutral": 0,
+      "anger": 1,
+      "joy": 2,
+      "sadness": 3,
+      "surprise": 4,
+      "blush": 18,
+      "star_eyes": 19,
+      "wide_open": 20,
+      "lip_lick": 23,
+      "mic": 16,
+      "violin": 17,
+      "violin_rest": 21,
+      "electric_violin": 24,
+      "hug": 6,
+      "paws": 7,
+      "dab": 13,
+      "present": 15,
+      "wave": 11,
+      "hide": 14,
+      "high": 12,
+      "point": 8,
+      "point_sky": 9,
+      "fabulous": 3,
+      "flashy": 4,
+      "fly": 5,
+      "behind": 2,
+      "stretches": 10
+    }
+  },
+  {
+    "name": "tifa",
+    "description": "Imported model tifav1.0_t2_vts",
+    "url": "/live2d-models/tifa/tifav1.0_t2_vts.model3.json",
+    "kScale": 0.5,
+    "initialXshift": 0,
+    "initialYshift": 0,
+    "kXOffset": 1150,
+    "idleMotionGroupName": "Idle",
+    "emotionMap": {
+      "neutral": 27,
+      "anger": 0,
+      "joy": 27,
+      "sadness": 29,
+      "surprise": 4,
+      "smirk": 5,
+      "fear": 6,
+      "disgust": 7,
+      "blush": 2,
+      "heart_eyes": 22,
+      "tears": 29,
+      "pout": 26,
+      "tongue": 30,
+      "wink": 32,
+      "lick": 25,
+      "demon": 8,
+      "crazy": 9,
+      "numb": 11,
+      "arm": 1,
+      "hand_hip_right": 21,
+      "hand_hip_left": 23
+    }
+  }
 ]
