@@ -134,6 +134,11 @@ class ProxyHandler:
                     self.message_queue.conversation_active = False
                     # Forward the interrupt signal directly
                     await self.forward_to_server(message, client_id)
+                # --- New: Handle system-priority-message ---
+                elif message.get("type") == "system-priority-message":
+                    logger.info("Received system-priority-message, inserting at top of queue")
+                    message["type"] = "text-input"
+                    self.message_queue.queue_message(message, client_id, priority="high")
                 else:
                     # Forward other message types directly
                     await self.forward_to_server(message, client_id)
@@ -202,6 +207,9 @@ class ProxyHandler:
 
         if self.server_ws and not self.server_ws.closed:
             await self.server_ws.send_json(message)
+        # --- If system-priority-message, also insert at top of queue ---
+        if message.get("type") == "system-priority-message":
+            self.message_queue.queue_message(message, sender_id, priority="high")
 
     async def forward_server_messages(self):
         """Forward messages from server to all connected clients"""
@@ -239,6 +247,8 @@ class ProxyHandler:
                     elif msg.type == aiohttp.WSMsgType.CLOSED:
                         break
                 except Exception as e:
+                    import traceback
+                    logger.error(traceback.format_exc())
                     logger.error(f"Error processing server message: {e}")
                     await asyncio.sleep(1)
         except Exception as e:
@@ -269,7 +279,7 @@ class ProxyHandler:
             if "audio" not in message
             else {
                 **{k: v for k, v in message.items() if k != "audio"},
-                "audio": f"[Audio data, {len(message.get('audio', ''))} bytes truncated]",
+                "audio": f"[Audio data, {len(message.get('audio', '') or '')} bytes truncated]",
             }
         )
 

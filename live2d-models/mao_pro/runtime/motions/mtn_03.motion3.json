@@ -211,7 +211,7 @@
 		},
 		{
 			"Target": "Parameter",
-			"Id": "ParamEyeLOpen",
+			"Id": "PARAM_EYE_L_OPEN",
 			"Segments": [
 				0,
 				1,
@@ -272,7 +272,7 @@
 		},
 		{
 			"Target": "Parameter",
-			"Id": "ParamEyeROpen",
+			"Id": "PARAM_EYE_R_OPEN",
 			"Segments": [
 				0,
 				1,

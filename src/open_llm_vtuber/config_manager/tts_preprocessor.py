@@ -106,6 +106,7 @@ class TTSPreprocessorConfig(I18nMixin):
     ignore_asterisks: bool = Field(default=True, alias="ignore_asterisks")
     ignore_angle_brackets: bool = Field(default=True, alias="ignore_angle_brackets")
     translator_config: TranslatorConfig = Field(..., alias="translator_config")
+    lowercase_abbreviations: list = Field(default=[], alias="lowercase_abbreviations")
 
     DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
         "remove_special_char": Description(

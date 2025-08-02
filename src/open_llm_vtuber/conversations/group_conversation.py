@@ -319,7 +319,7 @@ async def broadcast_thinking_state(
     )
     await broadcast_func(
         group_members,
-        {"type": "full-text", "text": "Thinking..."},
+        {"type": "full-text", "text": "..."},
     )
 
 

@@ -188,7 +188,7 @@
 		},
 		{
 			"Target": "Parameter",
-			"Id": "ParamEyeLOpen",
+			"Id": "PARAM_EYE_L_OPEN",
 			"FadeInTime": 1.0,
 			"FadeOutTime": 1.0,
 			"Segments": [
@@ -287,7 +287,7 @@
 		},
 		{
 			"Target": "Parameter",
-			"Id": "ParamEyeROpen",
+			"Id": "PARAM_EYE_R_OPEN",
 			"FadeInTime": 1.0,
 			"FadeOutTime": 1.0,
 			"Segments": [

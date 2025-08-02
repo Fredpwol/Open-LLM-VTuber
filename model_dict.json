@@ -200,21 +200,21 @@
   },
   {
     "name": "tifa",
-    "description": "Imported model tifav1.0_t2_vts",
-    "url": "/live2d-models/tifa/tifav1.0_t2_vts.model3.json",
-    "kScale": 0.5,
+    "description": "Imported model tifa",
+    "url": "/live2d-models/tifa/runtime/TifaV1.2T2.model3.json",
+    "kScale": 0.125,
     "initialXshift": 0,
     "initialYshift": 0,
-    "kXOffset": 1150,
     "idleMotionGroupName": "Idle",
     "emotionMap": {
-      "neutral": 27,
-      "anger": 0,
+      "neutral": 23,
+      "anger": 8,
       "joy": 27,
       "sadness": 29,
+      "shock": 11,
       "surprise": 4,
       "smirk": 5,
-      "fear": 6,
+      "fear": 9,
       "disgust": 7,
       "blush": 2,
       "heart_eyes": 22,
@@ -223,12 +223,20 @@
       "tongue": 30,
       "wink": 32,
       "lick": 25,
-      "demon": 8,
-      "crazy": 9,
-      "numb": 11,
+      "demon": 7,
+      "crazy": 6,
       "arm": 1,
       "hand_hip_right": 21,
       "hand_hip_left": 23
+    },
+    "defaultEmotion" : 33,
+    "tapMotions": {
+      "HitAreaHead": {
+        "": 1
+      },
+      "HitAreaBody": {
+        "": 1
+      }
     }
   }
 ]

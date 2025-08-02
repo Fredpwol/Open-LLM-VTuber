@@ -1,0 +1,7 @@
+live_config:
+  bilibili_live:
+    room_ids: []
+    sessdata: ""
+  pumpfun_live:
+    room_id: ""
+    limit: 20 

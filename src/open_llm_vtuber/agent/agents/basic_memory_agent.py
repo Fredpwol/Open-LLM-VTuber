@@ -1,3 +1,4 @@
+import asyncio
 from typing import (
     AsyncIterator,
     List,
@@ -125,7 +126,7 @@ class BasicMemoryAgent(AgentInterface):
 
         self._system = system
 
-    def _add_message(
+    async def _add_message(
         self,
         message: Union[str, List[Dict[str, Any]]],
         role: str,
@@ -172,6 +173,57 @@ class BasicMemoryAgent(AgentInterface):
             return
 
         self._memory.append(message_data)
+        await self._summarize_memory_if_needed()
+
+    async def _summarize_messages(self, messages: list) -> str:
+        """Summarize a list of messages using the LLM."""
+        # Compose a prompt for summarization
+        prompt = """Summarize the following conversation history in a concise paragraph, preserving important context and facts, but omitting unnecessary details.\n\n"""
+        for msg in messages:
+            prompt += f"{msg['role']}: {msg['content']}\n"
+        prompt += "\nSummary:"
+        # Use the LLM to summarize (async only)
+        if hasattr(self._llm, 'generate_summary'):
+            return await self._llm.generate_summary(prompt)
+        # Fallback: use chat_completion with a system prompt
+        summary = ""
+        try:
+            # Use a simple chat completion with a system prompt
+            messages = [
+                {"role": "system", "content": "You are a helpful assistant that summarizes conversations."},
+                {"role": "user", "content": prompt}
+            ]
+            result = ""
+            async for chunk in self._llm.chat_completion(messages):
+                result += chunk if isinstance(chunk, str) else chunk.get("text", "")
+            return result.strip()
+        except Exception as e:
+            logger.error(f"Failed to summarize memory: {e}")
+            return "[Summary unavailable]"
+
+    async def _summarize_memory_if_needed(self):
+        """If memory is too long, summarize the oldest messages and replace them with a summary."""
+        MAX_MEMORY = 20
+        if len(self._memory) > MAX_MEMORY:
+            # Summarize the oldest 10 messages (excluding system prompt if present)
+            start_idx = 1 if self._memory and self._memory[0]["role"] == "system" else 0
+            end_idx = start_idx + 10
+            to_summarize = self._memory[start_idx:end_idx]
+            if not to_summarize:
+                return
+            try:
+                summary = await self._summarize_messages(to_summarize)
+            except Exception as e:
+                logger.error(f"Error during memory summarization: {e}")
+                summary = "[Summary unavailable]"
+            # Replace the summarized messages with a summary message
+            summary_message = {"role": "system", "content": f"Summary of earlier conversation: {summary}"}
+            self._memory = (
+                self._memory[:start_idx]
+                + [summary_message]
+                + self._memory[end_idx:]
+            )
+            logger.info("Memory summarized and oldest messages replaced with summary.")
 
     def set_memory_from_history(self, conf_uid: str, history_uid: str) -> None:
         """Load memory from chat history."""
@@ -239,7 +291,7 @@ class BasicMemoryAgent(AgentInterface):
 
         return "\n".join(message_parts).strip()
 
-    def _to_messages(self, input_data: BatchInput) -> List[Dict[str, Any]]:
+    async def _to_messages(self, input_data: BatchInput) -> List[Dict[str, Any]]:
         """Prepare messages for LLM API call."""
         messages = self._memory.copy()
         user_content = []
@@ -279,7 +331,7 @@ class BasicMemoryAgent(AgentInterface):
                 skip_memory = True
 
             if not skip_memory:
-                self._add_message(
+                await self._add_message(
                     text_prompt if text_prompt else "[User provided image(s)]", "user"
                 )
         else:
@@ -363,7 +415,7 @@ class BasicMemoryAgent(AgentInterface):
                         ]
                     ).strip()
                     if assistant_text_for_memory:
-                        self._add_message(assistant_text_for_memory, "assistant")
+                        await self._add_message(assistant_text_for_memory, "assistant")
 
                 tool_results_for_llm = []
                 if not self._tool_executor:
@@ -397,7 +449,7 @@ class BasicMemoryAgent(AgentInterface):
                 continue
             else:
                 if current_turn_text:
-                    self._add_message(current_turn_text, "assistant")
+                    await self._add_message(current_turn_text, "assistant")
                 return
 
     async def _openai_tool_interaction_loop(
@@ -497,7 +549,7 @@ class BasicMemoryAgent(AgentInterface):
 
             if detected_prompt_json:
                 logger.info("Processing tools detected via prompt mode JSON.")
-                self._add_message(current_turn_text, "assistant")
+                await self._add_message(current_turn_text, "assistant")
 
                 parsed_tools = self._tool_executor.process_tool_from_prompt_json(
                     detected_prompt_json
@@ -542,7 +594,7 @@ class BasicMemoryAgent(AgentInterface):
             elif pending_tool_calls and assistant_message_for_api:
                 messages.append(assistant_message_for_api)
                 if current_turn_text:
-                    self._add_message(current_turn_text, "assistant")
+                    await self._add_message(current_turn_text, "assistant")
 
                 tool_results_for_llm = []
                 if not self._tool_executor:
@@ -575,7 +627,7 @@ class BasicMemoryAgent(AgentInterface):
 
             else:
                 if current_turn_text:
-                    self._add_message(current_turn_text, "assistant")
+                    await self._add_message(current_turn_text, "assistant")
                 return
 
     def _chat_function_factory(
@@ -598,7 +650,7 @@ class BasicMemoryAgent(AgentInterface):
             self.reset_interrupt()
             self.prompt_mode_flag = False
 
-            messages = self._to_messages(input_data)
+            messages = await self._to_messages(input_data)
             tools = None
             tool_mode = None
             llm_supports_native_tools = False
@@ -657,7 +709,7 @@ class BasicMemoryAgent(AgentInterface):
                         yield text_chunk
                         complete_response += text_chunk
                 if complete_response:
-                    self._add_message(complete_response, "assistant")
+                    await self._add_message(complete_response, "assistant")
 
         return chat_with_memory
 

@@ -266,11 +266,18 @@ character_config:
 
   # =================== Text to Speech ===================
   tts_config:
+
     tts_model: 'edge_tts'
     # text to speech model options:
     #   'azure_tts', 'pyttsx3_tts', 'edge_tts', 'bark_tts',
     #   'cosyvoice_tts', 'melo_tts', 'coqui_tts',
     #   'fish_api_tts', 'x_tts', 'gpt_sovits_tts', 'sherpa_onnx_tts'
+
+
+    resemble_tts:
+      api_key: "YOUR_API_KEY"
+      voice_uuid: "2a07833d"
+      project_uuid: "YOUR_PROJECT_UUID"
 
     azure_tts:
       api_key: 'azure-api-key'

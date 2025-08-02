@@ -1,5 +1,6 @@
 from typing import Type
 from .tts_interface import TTSInterface
+from .resemble_tts import ResembleTTS
 
 
 class TTSFactory:
@@ -148,6 +149,25 @@ class TTSFactory:
                 gender=kwargs.get("gender"),
                 pitch=kwargs.get("pitch"),
                 speed=kwargs.get("speed"),
+            )
+        elif engine_type == "chatterbox_tts":
+            from .chatterbox_tts import TTSEngine as ChatterboxTTSEngine
+            return ChatterboxTTSEngine(
+                model_path=kwargs.get("model_path", "chatterbox"),
+                voice=kwargs.get("voice", "default"),
+                exaggeration=kwargs.get("exaggeration", 0.5),
+                cfg=kwargs.get("cfg", 0.3),
+                seed=kwargs.get("seed", 0),
+                temperature=kwargs.get("temperature", 1.0),
+                output_format=kwargs.get("output_format", "wav"),
+                device=kwargs.get("device", "cuda"),
+                audio_prompt_path=kwargs.get("audio_prompt_path", '')
+            )
+        elif engine_type == "resemble_tts":
+            return ResembleTTS(
+                api_key=kwargs.get("api_key"),
+                voice_uuid=kwargs.get("voice_uuid"),
+                project_uuid=kwargs.get("project_uuid"),
             )
         else:
             raise ValueError(f"Unknown TTS engine type: {engine_type}")

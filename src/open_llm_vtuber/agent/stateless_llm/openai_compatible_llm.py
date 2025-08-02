@@ -201,13 +201,13 @@ class AsyncLLM(StatelessLLMInterface):
             logger.error(
                 f"Error calling the chat endpoint: Connection error. Failed to connect to the LLM API. \nCheck the configurations and the reachability of the LLM backend. \nSee the logs for details. \nTroubleshooting with documentation: https://open-llm-vtuber.github.io/docs/faq#%E9%81%87%E5%88%B0-error-calling-the-chat-endpoint-%E9%94%99%E8%AF%AF%E6%80%8E%E4%B9%88%E5%8A%9E \n{e.__cause__}"
             )
-            yield "Error calling the chat endpoint: Connection error. Failed to connect to the LLM API. Check the configurations and the reachability of the LLM backend. See the logs for details. Troubleshooting with documentation: [https://open-llm-vtuber.github.io/docs/faq#%E9%81%87%E5%88%B0-error-calling-the-chat-endpoint-%E9%94%99%E8%AF%AF%E6%80%8E%E4%B9%88%E5%8A%9E]"
+            yield ""
 
         except RateLimitError as e:
             logger.error(
                 f"Error calling the chat endpoint: Rate limit exceeded: {e.response}"
             )
-            yield "Error calling the chat endpoint: Rate limit exceeded. Please try again later. See the logs for details."
+            yield ""
 
         except APIError as e:
             if "does not support tools" in str(e):
@@ -222,7 +222,7 @@ class AsyncLLM(StatelessLLMInterface):
             logger.info(f"Model: {self.model}")
             logger.info(f"Messages: {messages}")
             logger.info(f"temperature: {self.temperature}")
-            yield "Error calling the chat endpoint: Error occurred while generating response. See the logs for details."
+            yield ""
 
         finally:
             # make sure the stream is properly closed

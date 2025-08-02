@@ -20,12 +20,23 @@ class BiliBiliLiveConfig(I18nMixin):
     }
 
 
+class PumpFunLiveConfig(I18nMixin):
+    """Configuration for Pump.fun Live integration."""
+    room_id: str = ""
+    limit: int = 20
+    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+        "room_id": Description(en="Pump.fun room ID", zh="Pump.fun 房间ID"),
+        "limit": Description(en="Number of messages to fetch per request", zh="每次请求获取的消息数量"),
+    }
+
+
 class LiveConfig(I18nMixin):
     """Configuration for live streaming platforms integration."""
 
     bilibili_live: BiliBiliLiveConfig = Field(
         BiliBiliLiveConfig(), alias="bilibili_live"
     )
+    pumpfun_live: PumpFunLiveConfig = Field(default_factory=PumpFunLiveConfig, alias="pumpfun_live")
 
     DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
         "bilibili_live": Description(

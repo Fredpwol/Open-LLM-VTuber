@@ -27,7 +27,7 @@
 			"Name": "Face Ink_Display"
 		},
 		{
-			"Id": "ParamEyeLOpen",
+			"Id": "PARAM_EYE_L_OPEN",
 			"GroupId": "ParamGroupEyes",
 			"Name": "Eye L_Open"
 		},
@@ -42,7 +42,7 @@
 			"Name": "Eye L_Deformation"
 		},
 		{
-			"Id": "ParamEyeROpen",
+			"Id": "PARAM_EYE_R_OPEN",
 			"GroupId": "ParamGroupEyes",
 			"Name": "Eye R_Open"
 		},

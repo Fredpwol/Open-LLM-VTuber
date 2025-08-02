@@ -371,6 +371,78 @@ class SparkTTSConfig(I18nMixin):
     }
 
 
+class ChatterboxTTSConfig(I18nMixin):
+    """Configuration for Chatterbox TTS."""
+
+    model_path: str = Field("chatterbox", alias="model_path")
+    voice: str = Field("default", alias="voice")
+    exaggeration: float = Field(0.5, alias="exaggeration")
+    cfg: float = Field(0.3, alias="cfg")
+    seed: int = Field(0, alias="seed")
+    temperature: float = Field(1.0, alias="temperature")
+    output_format: str = Field("wav", alias="output_format")
+    device: str = Field("cuda", alias="device")
+    audio_prompt_path: str = Field("", alias="audio_prompt_path")
+
+    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+        "model_path": Description(
+            en="Path to Chatterbox CLI or Python script",
+            zh="Chatterbox CLI 或 Python 脚本的路径"
+        ),
+        "voice": Description(
+            en="Voice name or reference (if supported)",
+            zh="语音名称或参考（如支持）"
+        ),
+        "exaggeration": Description(
+            en="Emotional exaggeration (0.0-1.0)",
+            zh="情感夸张度 (0.0-1.0)"
+        ),
+        "cfg": Description(
+            en="CFG/Pace (controls speed/rhythm)",
+            zh="CFG/节奏（控制语速/节奏）"
+        ),
+        "seed": Description(
+            en="Random seed",
+            zh="随机种子"
+        ),
+        "temperature": Description(
+            en="Sampling temperature",
+            zh="采样温度"
+        ),
+        "output_format": Description(
+            en="Output format (wav or mp3)",
+            zh="输出格式（wav 或 mp3）"
+        ),
+        "device": Description(
+            en="Device to run Chatterbox (e.g., 'cuda', 'cpu')",
+            zh="运行 Chatterbox 的设备（如 'cuda'、'cpu'）"
+        ),
+        "audio_prompt_path": Description(
+            en="Path to reference audio for voice cloning (optional)",
+            zh="用于声音克隆的参考音频路径（可选）"
+        ),
+    }
+
+
+class ResembleTTSConfig(I18nMixin):
+    """Configuration for Resemble AI TTS."""
+    api_key: str = Field(..., alias="api_key")
+    voice_uuid: str = Field(..., alias="voice_uuid")
+    project_uuid: str = Field(..., alias="project_uuid")
+
+    DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
+        "api_key": Description(
+            en="API key for Resemble AI TTS service", zh="Resemble AI TTS 服务的 API 密钥"
+        ),
+        "voice_uuid": Description(
+            en="Voice UUID to use for Resemble AI TTS", zh="Resemble AI TTS 使用的语音 UUID"
+        ),
+        "project_uuid": Description(
+            en="Project UUID for Resemble AI TTS", zh="Resemble AI TTS 的项目 UUID"
+        ),
+    }
+
+
 class TTSConfig(I18nMixin):
     """Configuration for Text-to-Speech."""
 
@@ -388,6 +460,8 @@ class TTSConfig(I18nMixin):
         "sherpa_onnx_tts",
         "openai_tts",  # Add openai_tts here
         "spark_tts",
+        "chatterbox_tts",  # Added chatterbox_tts
+        "resemble_tts",  # Added resemble_tts
     ] = Field(..., alias="tts_model")
 
     azure_tts: Optional[AzureTTSConfig] = Field(None, alias="azure_tts")
@@ -405,6 +479,8 @@ class TTSConfig(I18nMixin):
     )
     openai_tts: Optional[OpenAITTSConfig] = Field(None, alias="openai_tts")
     spark_tts: Optional[SparkTTSConfig] = Field(None, alias="spark_tts")
+    chatterbox_tts: Optional[ChatterboxTTSConfig] = Field(None, alias="chatterbox_tts")
+    resemble_tts: Optional[ResembleTTSConfig] = Field(None, alias="resemble_tts")
 
     DESCRIPTIONS: ClassVar[Dict[str, Description]] = {
         "tts_model": Description(
@@ -435,6 +511,12 @@ class TTSConfig(I18nMixin):
             en="Configuration for OpenAI-compatible TTS", zh="OpenAI 兼容 TTS 配置"
         ),
         "spark_tts": Description(en="Configuration for Spark TTS", zh="Spark TTS 配置"),
+        "chatterbox_tts": Description(
+            en="Configuration for Chatterbox TTS", zh="Chatterbox TTS 配置"
+        ),
+        "resemble_tts": Description(
+            en="Configuration for Resemble AI TTS", zh="Resemble AI TTS 配置"
+        ),
     }
 
     @model_validator(mode="after")
@@ -468,4 +550,8 @@ class TTSConfig(I18nMixin):
             values.openai_tts.model_validate(values.openai_tts.model_dump())
         elif tts_model == "spark_tts" and values.spark_tts is not None:
             values.spark_tts.model_validate(values.spark_tts.model_dump())
+        elif tts_model == "chatterbox_tts" and values.chatterbox_tts is not None:
+            values.chatterbox_tts.model_validate(values.chatterbox_tts.model_dump())
+        elif tts_model == "resemble_tts" and values.resemble_tts is not None:
+            values.resemble_tts.model_validate(values.resemble_tts.model_dump())
         return values

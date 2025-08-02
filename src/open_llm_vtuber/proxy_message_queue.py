@@ -29,20 +29,24 @@ class ProxyMessageQueue:
         self._forward_func = forward_func
         logger.debug("Message queue initialized with forward function")
 
-    def queue_message(self, message: Dict, sender_id: Optional[str] = None) -> None:
+    def queue_message(self, message: Dict, sender_id: Optional[str] = None, priority : str = "low") -> None:
         """
         Add a message to the queue.
 
         Args:
             message: The message to queue
             sender_id: Optional ID of the client that sent the message
+            priority: If the message is to be sent immediately or wait
         """
         # Store the message along with its sender ID
         queue_item = {"message": message, "sender_id": sender_id}
         logger.info(
             f"Queuing message: {message.get('text', '')} (active conversation: {self._conversation_active})"
         )
-        self.message_queue.append(queue_item)
+        if priority == "high":
+            self.message_queue.appendleft(queue_item)
+        else:
+            self.message_queue.append(queue_item)
 
         # Start consumer if needed
         self._ensure_consumer_running()
